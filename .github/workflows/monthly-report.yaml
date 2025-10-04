@@ -17,7 +17,7 @@ jobs:
         with:
           node-version: "20"
       - run: npm ci
-      - run: npx ts-node --esm scripts/generate-report.ts monthly
+      - run: node --loader ts-node/esm scripts/generate-report.ts monthly
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - name: Commit summaries
