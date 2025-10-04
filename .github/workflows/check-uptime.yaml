@@ -29,7 +29,7 @@ jobs:
         run: npm ci
 
       - name: Run uptime check
-        run: npx ts-node scripts/check-uptime.ts
+        run: npx ts-node --esm scripts/check-uptime.ts
         working-directory: ${{ github.workspace }}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
