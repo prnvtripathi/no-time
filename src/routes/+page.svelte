@@ -6,6 +6,8 @@
   import { goto } from "$app/navigation";
   import type { Site, Log } from "$lib/types";
   import ModeToggle from "$lib/components/ui/mode-toggle.svelte";
+  import GithubButton from "$lib/components/ui/github-button.svelte";
+  import Button from "$lib/components/ui/button/button.svelte";
 
   let sites: Site[] = [];
   let logs: Log[] = [];
@@ -26,11 +28,11 @@
       <h1 class="text-3xl font-bold">🌐 No Time</h1>
       <p class="text-muted-foreground">Monitor and Report Website Uptime</p>
     </div>
-    <div>
-      <button
-        on:click={() => goto("/sites/add")}
-        class="inline-flex items-center justify-center rounded-lg bg-primary text-primary-foreground hover:bg-primary/90 px-4 py-2 font-medium shadow transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 mr-2"
-      >+ Add New Site</button>
+    <div class="flex items-center gap-1">
+      <Button variant="default" onclick={() => goto("/sites/add")} class="m-0">
+        Add New Site
+      </Button>
+      <GithubButton />
       <ModeToggle />
     </div>
   </header>
