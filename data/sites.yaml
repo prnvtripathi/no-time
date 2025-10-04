@@ -1,0 +1,9 @@
+sites:
+  - name: Trafyx
+    url: https://trafyx.kyrexi.tech
+    owner: prnvtripathi
+    checkMethod: GET
+    timeoutMS: 8000
+  - name: Monkeys
+    url: https://monkeys.com.co
+    owner: prnvtripathi
