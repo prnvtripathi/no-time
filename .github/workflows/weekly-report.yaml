@@ -17,7 +17,8 @@ jobs:
         with:
           node-version: "20"
       - run: npm ci
-      - run: node scripts/generate-report.js weekly
+      - run: npx tsc
+      - run: node dist/scripts/generate-report.js weekly
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - name: Commit summaries

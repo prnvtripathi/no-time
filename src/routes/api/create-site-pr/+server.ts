@@ -2,10 +2,13 @@ import { json } from '@sveltejs/kit';
 import yaml from 'js-yaml';
 import { Octokit } from '@octokit/rest';
 import type { RequestHandler } from '@sveltejs/kit';
+import { GITHUB_OWNER, GITHUB_BRANCH, GITHUB_REPO } from '$lib/config';
+import { GITHUB_TOKEN } from '$env/static/private';
 
-const owner = 'prnvtripathi';
-const repo = 'no-time';
-const mainBranch = 'main';
+const owner = GITHUB_OWNER;
+const repo = GITHUB_REPO;
+const mainBranch = GITHUB_BRANCH;
+const token = GITHUB_TOKEN;
 
 export const POST: RequestHandler = async ({ request }) => {
 	try {
@@ -15,7 +18,6 @@ export const POST: RequestHandler = async ({ request }) => {
 			return json({ message: 'Missing fields' }, { status: 400 });
 		}
 
-		const token = process.env.GITHUB_WRITE_TOKEN;
 		if (!token) throw new Error('No GitHub token configured');
 
 		const octokit = new Octokit({ auth: token });
