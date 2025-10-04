@@ -28,10 +28,8 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
-      - name: Build TS
-        run: npx tsc
       - name: Run uptime check
-        run: node dist/scripts/check-uptime.js
+        run: npx ts-node scripts/check-uptime.ts
         working-directory: ${{ github.workspace }}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

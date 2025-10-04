@@ -3,12 +3,12 @@ import yaml from 'js-yaml';
 import { Octokit } from '@octokit/rest';
 import type { RequestHandler } from '@sveltejs/kit';
 import { GITHUB_OWNER, GITHUB_BRANCH, GITHUB_REPO } from '$lib/config';
-import { GITHUB_TOKEN } from '$env/static/private';
+import { env } from '$env/dynamic/private';
 
 const owner = GITHUB_OWNER;
 const repo = GITHUB_REPO;
 const mainBranch = GITHUB_BRANCH;
-const token = GITHUB_TOKEN;
+const token = env?.GITHUB_TOKEN;
 
 export const POST: RequestHandler = async ({ request }) => {
 	try {
