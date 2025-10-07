@@ -11,19 +11,40 @@ permissions:
 jobs:
   weekly:
     runs-on: ubuntu-latest
+
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0 
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
         with:
           node-version: "20"
-      - run: npm ci
-      - run: node --loader ts-node/esm scripts/generate-report.ts weekly
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Generate weekly report
+        run: node --loader ts-node/esm scripts/generate-report.ts weekly
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      - name: Commit summaries
+
+      - name: Commit summaries to reports branch
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add logs/*weekly* || true
-          git commit -m "chore: weekly uptime summary" || echo "no changes"
-          git push origin HEAD:main
+
+          # Create or switch to reports branch
+          git fetch origin reports || true
+          git checkout reports || git checkout -b reports
+
+          # Copy any new weekly log files into this branch
+          mkdir -p weekly-reports
+          cp -r logs/*weekly* weekly-reports/ || true
+          
+          git add weekly-reports/*.json || true
+          git commit -m "chore: weekly uptime summary [skip ci]" || echo "no changes"
+
+          git push origin reports

@@ -1,7 +1,7 @@
 name: Monthly Uptime Report
 on:
   schedule:
-    - cron: "0 7 1 * *"   # 1st of month, 07:00 UTC
+    - cron: "0 7 1 * *"   # 1st of every month at 07:00 UTC
   workflow_dispatch:
 
 permissions:
@@ -12,18 +12,38 @@ jobs:
   monthly:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0 
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
         with:
           node-version: "20"
-      - run: npm ci
-      - run: node --loader ts-node/esm scripts/generate-report.ts monthly
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Generate monthly report
+        run: node --loader ts-node/esm scripts/generate-report.ts monthly
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      - name: Commit summaries
+
+      - name: Commit summaries to reports branch
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add logs/*monthly* || true
-          git commit -m "chore: monthly uptime summary" || echo "no changes"
-          git push origin HEAD:main
+
+          # Create or switch to reports branch
+          git fetch origin reports || true
+          git checkout reports || git checkout -b reports
+
+          # Copy any new monthly log files into this branch
+          mkdir -p monthly-reports
+          cp -r logs/*monthly* monthly-reports/ || true
+
+          git add monthly-reports/*.json || true
+          git commit -m "chore: monthly uptime summary [skip ci]" || echo "no changes"
+
+          git push origin reports

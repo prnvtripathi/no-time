@@ -19,6 +19,8 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
 
       - name: Setup Node
         uses: actions/setup-node@v4
@@ -30,15 +32,23 @@ jobs:
 
       - name: Run uptime check
         run: node --loader ts-node/esm scripts/check-uptime.ts
-        working-directory: ${{ github.workspace }}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          # For local testing set PERSONAL_TOKEN in env. In Actions GITHUB_TOKEN exists.
 
-      - name: Commit logs back
+      - name: Commit logs to reports branch
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add logs/*.json || true
+
+          # Create or switch to reports branch
+          git fetch origin reports || true
+          git checkout reports || git checkout -b reports
+
+          # Copy the new logs into this branch
+          cp -r logs/* ./
+
+          git add *.json || true
           git commit -m "chore: update uptime logs [skip ci]" || echo "no changes"
-          git push origin HEAD:main
+
+          # Push only to reports branch
+          git push origin reports
