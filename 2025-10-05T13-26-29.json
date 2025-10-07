@@ -1,0 +1,32 @@
+[
+  {
+    "name": "Trafyx",
+    "url": "https://trafyx.kyrexi.tech",
+    "owner": "prnvtripathi",
+    "status": "UP",
+    "code": 200,
+    "error": null,
+    "rtt": 4711,
+    "checkedAt": "2025-10-05T13:26:28.158Z"
+  },
+  {
+    "name": "Monkeys",
+    "url": "https://monkeys.com.co",
+    "owner": "prnvtripathi",
+    "status": "UP",
+    "code": 200,
+    "error": null,
+    "rtt": 64,
+    "checkedAt": "2025-10-05T13:26:28.223Z"
+  },
+  {
+    "name": "Obligence",
+    "url": "https://obligence.kyrexi.tech",
+    "owner": "prnvtripathi",
+    "status": "UP",
+    "code": 200,
+    "error": null,
+    "rtt": 1519,
+    "checkedAt": "2025-10-05T13:26:29.742Z"
+  }
+]
