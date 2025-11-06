@@ -1,0 +1,42 @@
+[
+  {
+    "name": "Trafyx",
+    "url": "https://trafyx.kyrexi.tech",
+    "owner": "prnvtripathi",
+    "status": "UP",
+    "code": 200,
+    "error": null,
+    "rtt": 7549,
+    "checkedAt": "2025-11-06T07:12:21.272Z"
+  },
+  {
+    "name": "Monkeys Production",
+    "url": "https://monkeys.support/healthz",
+    "owner": "prnvtripathi",
+    "status": "UP",
+    "code": 200,
+    "error": null,
+    "rtt": 1050,
+    "checkedAt": "2025-11-06T07:12:22.331Z"
+  },
+  {
+    "name": "Monkeys Development",
+    "url": "https://dev.monkeys.support/healthz",
+    "owner": "prnvtripathi",
+    "status": "UP",
+    "code": 200,
+    "error": null,
+    "rtt": 1332,
+    "checkedAt": "2025-11-06T07:12:23.666Z"
+  },
+  {
+    "name": "Obligence",
+    "url": "https://obligence.kyrexi.tech",
+    "owner": "prnvtripathi",
+    "status": "UP",
+    "code": 200,
+    "error": null,
+    "rtt": 1857,
+    "checkedAt": "2025-11-06T07:12:25.525Z"
+  }
+]
