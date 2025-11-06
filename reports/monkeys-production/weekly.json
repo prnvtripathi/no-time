@@ -1,0 +1,12 @@
+{
+  "period": "weekly",
+  "periodStart": "2025-11-03T00:00:00.000Z",
+  "periodEnd": "2025-11-10T00:00:00.000Z",
+  "totalChecks": 1,
+  "upCount": 1,
+  "downCount": 0,
+  "uptimePct": 100,
+  "lastUpdated": "2025-11-06T06:33:57.832Z",
+  "name": "Monkeys Production",
+  "url": "https://monkeys.support/healthz"
+}
