@@ -1,11 +1,23 @@
+# YAML configuration for monitored sites
+# Instructions:
+# - Each site entry should include:
+#   - name: The name of the site
+#   - url: The URL of the site
+#   - owner: The owner of the site
+#   - checkMethod: (optional) The HTTP method to use for checking the site (default is GET)
+#   - timeoutMS: (optional) Timeout in milliseconds for the check (default is 5000ms)
+
 sites:
   - name: Trafyx
     url: https://trafyx.kyrexi.tech
     owner: prnvtripathi
     checkMethod: GET
     timeoutMS: 8000
-  - name: Monkeys
-    url: https://monkeys.com.co
+  - name: Monkeys Production
+    url: https://monkeys.support/healthz
+    owner: prnvtripathi
+  - name: Monkeys Development
+    url: https://dev.monkeys.support/healthz
     owner: prnvtripathi
   - name: Obligence
     url: https://obligence.kyrexi.tech
