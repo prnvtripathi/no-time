@@ -17,7 +17,7 @@
     const siteRes = await fetch(`${RAW_BASE}/data/sites.yaml`);
     const siteData = yaml.load(await siteRes.text()) as { sites: Site[] };
     sites = siteData.sites;
-    const logRes = await fetch(`${RAW_BASE}/logs/latest.json`);
+  const logRes = await fetch(`${RAW_BASE}/reports/latest.json`);
     logs = (await logRes.json()) as Log[];
   });
 </script>

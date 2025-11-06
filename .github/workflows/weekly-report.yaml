@@ -31,20 +31,32 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Commit summaries to reports branch
+      - name: Commit weekly summary to reports branch
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
+          # Stash updated reports from main
+          rm -rf .tmp_reports
+          mkdir -p .tmp_reports
+          if [ -d reports ]; then cp -r reports/. .tmp_reports/; fi
+          # also stash data/sites.yaml for the reports branch
+          rm -rf .tmp_data && mkdir -p .tmp_data
+          if [ -f data/sites.yaml ]; then mkdir -p .tmp_data/data && cp data/sites.yaml .tmp_data/data/; fi
 
           # Create or switch to reports branch
           git fetch origin reports || true
           git checkout reports || git checkout -b reports
 
-          # Copy any new weekly log files into this branch
-          mkdir -p weekly-reports
-          cp -r logs/*weekly* weekly-reports/ || true
-          
-          git add weekly-reports/*.json || true
+          # Restore reports into this branch (overwrites weekly.md and any per-site updates)
+          mkdir -p reports
+          if [ -d .tmp_reports ]; then cp -r .tmp_reports/. reports/; fi
+
+          # Restore stashed data/sites.yaml
+          if [ -f .tmp_data/data/sites.yaml ]; then mkdir -p data && cp .tmp_data/data/sites.yaml data/sites.yaml; fi
+
+          git add reports/** || true
+          git add data/sites.yaml || true
           git commit -m "chore: weekly uptime summary [skip ci]" || echo "no changes"
 
           git push origin reports

@@ -4,12 +4,9 @@ import yaml from "js-yaml";
 import { Octokit } from "@octokit/rest";
 import type { ConfigFile, Site, UptimeResult } from '../src/lib/types';
 
-const LOG_DIR = "./logs";
+// New layout: per-site folders under ./reports
+const REPORTS_DIR = "./reports";
 const SITES_YAML = "./data/sites.yaml";
-
-function isoNowFileName() {
-  return new Date().toISOString().replace(/:/g, "-").split(".")[0];
-}
 
 async function safeReadYaml(p: string) {
   const txt = await fs.readFile(p, "utf8");
@@ -31,8 +28,103 @@ async function fetchWithTimeout(url: string, timeout = 8000, method = "GET") {
   }
 }
 
-async function ensureLogDir() {
-  await fs.mkdir(LOG_DIR, { recursive: true });
+function slugify(input: string) {
+  return input
+    .toLowerCase()
+    .replace(/https?:\/\//, "")
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/^-+|-+$/g, "");
+}
+
+function startOfIsoWeekUTC(d = new Date()) {
+  const day = d.getUTCDay(); // 0 = Sun, 1 = Mon
+  const diffToMonday = (day === 0 ? -6 : 1) - day; // move back to Monday
+  const start = new Date(Date.UTC(d.getUTCFullYear(), d.getUTCMonth(), d.getUTCDate(), 0, 0, 0, 0));
+  start.setUTCDate(start.getUTCDate() + diffToMonday);
+  return start;
+}
+
+function endOfIsoWeekUTC(d = new Date()) {
+  const start = startOfIsoWeekUTC(d);
+  const end = new Date(start);
+  end.setUTCDate(end.getUTCDate() + 7);
+  return end;
+}
+
+function startOfMonthUTC(d = new Date()) {
+  return new Date(Date.UTC(d.getUTCFullYear(), d.getUTCMonth(), 1, 0, 0, 0, 0));
+}
+
+function endOfMonthUTC(d = new Date()) {
+  return new Date(Date.UTC(d.getUTCFullYear(), d.getUTCMonth() + 1, 1, 0, 0, 0, 0));
+}
+
+type AggregateReport = {
+  period: "weekly" | "monthly";
+  periodStart: string; // ISO
+  periodEnd: string;   // ISO (exclusive)
+  totalChecks: number;
+  upCount: number;
+  downCount: number;
+  uptimePct: number; // 0..100
+  lastUpdated: string; // ISO
+  name: string;
+  url: string;
+};
+
+async function ensureReportsDir() {
+  await fs.mkdir(REPORTS_DIR, { recursive: true });
+}
+
+async function ensureSiteDir(site: Site) {
+  const dir = path.posix.join(REPORTS_DIR, slugify(site.name || site.url));
+  await fs.mkdir(dir, { recursive: true });
+  return dir;
+}
+
+function computePeriod(period: "weekly" | "monthly", now = new Date()) {
+  if (period === "weekly") {
+    return { start: startOfIsoWeekUTC(now), end: endOfIsoWeekUTC(now) };
+  }
+  return { start: startOfMonthUTC(now), end: endOfMonthUTC(now) };
+}
+
+async function updateAggregate(filePath: string, period: "weekly" | "monthly", site: Site, status: "UP" | "DOWN", now = new Date()) {
+  const { start, end } = computePeriod(period, now);
+  const empty: AggregateReport = {
+    period,
+    periodStart: start.toISOString(),
+    periodEnd: end.toISOString(),
+    totalChecks: 0,
+    upCount: 0,
+    downCount: 0,
+    uptimePct: 0,
+    lastUpdated: now.toISOString(),
+    name: site.name,
+    url: site.url
+  };
+
+  let current: AggregateReport = empty;
+  try {
+    const txt = await fs.readFile(filePath, "utf8");
+    const parsed = JSON.parse(txt) as AggregateReport;
+    // rollover if period changed
+    if (parsed.periodStart !== empty.periodStart || parsed.periodEnd !== empty.periodEnd) {
+      current = empty;
+    } else {
+      current = parsed;
+    }
+  } catch {
+    // no existing file — start fresh
+    current = empty;
+  }
+
+  current.totalChecks += 1;
+  if (status === "UP") current.upCount += 1; else current.downCount += 1;
+  current.uptimePct = current.totalChecks === 0 ? 0 : Math.round((current.upCount / current.totalChecks) * 10000) / 100;
+  current.lastUpdated = now.toISOString();
+
+  await fs.writeFile(filePath, JSON.stringify(current, null, 2), "utf8");
 }
 
 async function createIssueIfNeeded(octokit: Octokit | null, ownerRepo: string, site: Site, checkResult: UptimeResult) {
@@ -84,7 +176,7 @@ async function run() {
     process.exit(1);
   }
 
-  await ensureLogDir();
+  await ensureReportsDir();
 
   const results = [];
   for (const site of cfg.sites) {
@@ -114,16 +206,21 @@ async function run() {
         console.error("Issue creation failed", err);
       }
     }
+
+    // Write per-site reports: latest.json, weekly.json, monthly.json
+    const siteDir = await ensureSiteDir(site);
+    const latestPath = path.posix.join(siteDir, "latest.json");
+    await fs.writeFile(latestPath, JSON.stringify(record, null, 2), "utf8");
+
+    await updateAggregate(path.posix.join(siteDir, "weekly.json"), "weekly", site, record.status);
+    await updateAggregate(path.posix.join(siteDir, "monthly.json"), "monthly", site, record.status);
   }
 
-  const fname = path.posix.join(LOG_DIR, `${isoNowFileName()}.json`);
-  await fs.writeFile(fname, JSON.stringify(results, null, 2), "utf8");
+  // also maintain a global latest.json for convenience (optional)
+  const globalLatestPath = path.posix.join(REPORTS_DIR, "latest.json");
+  await fs.writeFile(globalLatestPath, JSON.stringify(results, null, 2), "utf8");
 
-  // also maintain latest.json to simplify UI fetch
-  const latestPath = path.posix.join(LOG_DIR, "latest.json");
-  await fs.writeFile(latestPath, JSON.stringify(results, null, 2), "utf8");
-
-  console.log("Wrote logs:", fname);
+  console.log("Updated per-site reports in", REPORTS_DIR);
 }
 
 run().catch(err => {
