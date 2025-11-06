@@ -3,7 +3,7 @@
   import { RAW_BASE } from "$lib/config";
   import SiteCard from "$lib/components/SiteCard.svelte";
   import LogViewer from "$lib/components/LogViewer.svelte";
-  import { goto } from "$app/navigation";
+  import AddNewSite from "$lib/components/AddNewSite.svelte";
   import type { Site, Log } from "$lib/types";
   import ModeToggle from "$lib/components/ui/mode-toggle.svelte";
   import GithubButton from "$lib/components/ui/github-button.svelte";
@@ -29,9 +29,7 @@
       <p class="text-muted-foreground">Monitor and Report Website Uptime</p>
     </div>
     <div class="flex items-center gap-1">
-      <Button variant="default" onclick={() => goto("/sites/add")} class="m-0">
-        Add New Site
-      </Button>
+      <AddNewSite />
       <GithubButton />
       <ModeToggle />
     </div>
