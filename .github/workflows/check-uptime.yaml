@@ -48,9 +48,21 @@ jobs:
           rm -rf .tmp_data && mkdir -p .tmp_data
           if [ -f data/sites.yaml ]; then mkdir -p .tmp_data/data && cp data/sites.yaml .tmp_data/data/; fi
 
-          # Create or switch to reports branch
+          # Create or switch to reports branch; attempt to merge remote changes to preserve commits
           git fetch origin reports || true
-          git checkout reports || git checkout -b reports
+          if git ls-remote --exit-code --heads origin reports >/dev/null 2>&1; then
+            # remote exists
+            if git rev-parse --verify reports >/dev/null 2>&1; then
+              git checkout reports
+            else
+              git checkout -b reports origin/reports
+            fi
+            # merge remote changes to preserve remote commits (may produce conflicts)
+            git pull --no-edit origin reports || true
+          else
+            # remote branch does not exist yet — create local branch
+            git checkout -b reports
+          fi
 
           # Restore reports into this branch
           mkdir -p reports
