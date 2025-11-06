@@ -1,47 +1,9 @@
-# sv
+# Contributing
 
-Everything you need to build a Svelte project, powered by [`sv`](https://github.com/sveltejs/cli).
+Thanks for your interest in contributing! This project includes a Svelte app and an automated website uptime checker with scheduled reports.
 
-## Creating a project
-
-If you're seeing this, you've probably already done this step. Congrats!
-
-```sh
-# create a new project in the current directory
-npx sv create
-
-# create a new project in my-app
-npx sv create my-app
-```
-
-## Developing
-
-Once you've created a project and installed dependencies with `npm install` (or `pnpm install` or `yarn`), start a development server:
-
-```sh
-npm run dev
-
-# or start the server and open the app in a new browser tab
-npm run dev -- --open
-```
-
-## Building
-
-To create a production version of your app:
-
-```sh
-npm run build
-```
-
-You can preview the production build with `npm run preview`.
-
-> To deploy your app, you may need to install an [adapter](https://svelte.dev/docs/kit/adapters) for your target environment.
-
-## Contributing and automation
-
-This repo also includes an automated website uptime checker and report generator.
-
-For details on the reports branch structure, CI workflows, and how to run the uptime scripts locally, see `CONTRIBUTING.md`.
+- For app development, see the setup and run instructions in `README.md`.
+- For automation, reporting, and CI details, read the sections below.
 
 ## Uptime reports and automation
 
