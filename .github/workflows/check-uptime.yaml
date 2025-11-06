@@ -35,36 +35,16 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Commit reports to reports branch
+      - name: Commit reports to main branch
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
 
-          # Stash the newly generated reports from main
-          rm -rf .tmp_reports
-          mkdir -p .tmp_reports
-          if [ -d reports ]; then cp -r reports/. .tmp_reports/; fi
-          # also stash data/sites.yaml for the reports branch
-          rm -rf .tmp_data && mkdir -p .tmp_data
-          if [ -f data/sites.yaml ]; then mkdir -p .tmp_data/data && cp data/sites.yaml .tmp_data/data/; fi
+          # Ensure local main is up-to-date to reduce push conflicts
+          git fetch origin main || true
+          git pull --rebase --autostash origin main || true
 
-          # Create or switch to reports branch; attempt to merge remote changes to preserve commits
-          git fetch origin reports || true
-          if git ls-remote --exit-code --heads origin reports >/dev/null 2>&1; then
-            # remote exists
-            if git rev-parse --verify reports >/dev/null 2>&1; then
-              git checkout reports
-            else
-              git checkout -b reports origin/reports
-            fi
-            # merge remote changes to preserve remote commits (may produce conflicts)
-            git pull --no-edit origin reports || true
-          else
-            # remote branch does not exist yet — create local branch
-            git checkout -b reports
-          fi
-
-          # Restore reports into this branch
+          # Restore stashed reports (copied earlier in this job)
           mkdir -p reports
           if [ -d .tmp_reports ]; then cp -r .tmp_reports/. reports/; fi
 
@@ -75,5 +55,5 @@ jobs:
           git add data/sites.yaml || true
           git commit -m "chore: update uptime reports [skip ci]" || echo "no changes"
 
-          # Push only to reports branch
-          git push origin reports
+          # Push to main branch instead of a separate 'reports' branch
+          git push origin HEAD:main

@@ -31,31 +31,19 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Commit weekly summary to reports branch
+      - name: Commit weekly summary to main branch
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
 
-          # Stash updated reports from main
+          # Ensure local main is up-to-date to reduce push conflicts
+          git fetch origin main || true
+          git pull --rebase --autostash origin main || true
+
+          # Stash updated reports from this run
           rm -rf .tmp_reports
           mkdir -p .tmp_reports
           if [ -d reports ]; then cp -r reports/. .tmp_reports/; fi
-          # also stash data/sites.yaml for the reports branch
-          rm -rf .tmp_data && mkdir -p .tmp_data
-          if [ -f data/sites.yaml ]; then mkdir -p .tmp_data/data && cp data/sites.yaml .tmp_data/data/; fi
-
-          # Create or switch to reports branch; attempt to merge remote changes to preserve commits
-          git fetch origin reports || true
-          if git ls-remote --exit-code --heads origin reports >/dev/null 2>&1; then
-            if git rev-parse --verify reports >/dev/null 2>&1; then
-              git checkout reports
-            else
-              git checkout -b reports origin/reports
-            fi
-            git pull --no-edit origin reports || true
-          else
-            git checkout -b reports
-          fi
 
           # Restore reports into this branch (overwrites weekly.md and any per-site updates)
           mkdir -p reports
@@ -68,4 +56,4 @@ jobs:
           git add data/sites.yaml || true
           git commit -m "chore: weekly uptime summary [skip ci]" || echo "no changes"
 
-          git push origin reports
+          git push origin HEAD:main
