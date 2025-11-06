@@ -1,31 +1,35 @@
-// scripts/generate-report.js
 import fs from "fs/promises";
 import path from "path";
 import yaml from "js-yaml";
 import { Octokit } from "@octokit/rest";
-import type { ConfigFile, Site, UptimeResult } from '../src/lib/types';
+import type { ConfigFile } from '../src/lib/types';
 
-const LOG_DIR = "./logs";
+const REPORTS_DIR = "./reports";
 const SITES_YAML = "./data/sites.yaml";
 
-function daysAgoDate(days: number) {
-  const d = new Date();
-  d.setDate(d.getDate() - days);
-  return d;
+function slugify(input: string) {
+  return input
+    .toLowerCase()
+    .replace(/https?:\/\//, "")
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/^-+|-+$/g, "");
 }
 
-async function loadJsonFiles() {
-  const files = await fs.readdir(LOG_DIR);
-  return Promise.all(files.filter(f => f.endsWith(".json")).map(async (f) => {
-    const full = path.join(LOG_DIR, f);
-    const txt = await fs.readFile(full, "utf8");
-    return JSON.parse(txt);
-  }));
+type AggregateReport = {
+  period: "weekly" | "monthly";
+  periodStart: string;
+  periodEnd: string;
+  totalChecks: number;
+  upCount: number;
+  downCount: number;
+  uptimePct: number;
+  lastUpdated: string;
+  name: string;
+  url: string;
 }
 
 async function run() {
-  const mode = (process.argv[2] || "weekly").toLowerCase(); // 'weekly' or 'monthly'
-  const days = mode === "monthly" ? 30 : 7;
+  const mode = (process.argv[2] || "weekly").toLowerCase() as "weekly" | "monthly";
   const repoFull = process.env.GITHUB_REPOSITORY ?? "";
   const token = process.env.GITHUB_TOKEN ?? process.env.PERSONAL_TOKEN;
   const octokit = token ? new Octokit({ auth: token }) : null;
@@ -34,65 +38,54 @@ async function run() {
   const cfg = yaml.load(cfgTxt) as ConfigFile;
   if (!cfg || !cfg.sites) throw new Error("No sites.yaml found");
 
-  // collect all log records from files
-  const files = await fs.readdir(LOG_DIR);
-  const cutoff = daysAgoDate(days);
-  const records = [];
-  for (const f of files.filter(x => x.endsWith(".json"))) {
-    const txt = await fs.readFile(path.join(LOG_DIR, f), "utf8");
+  const rows: Array<{ name: string; url: string; uptimePct: number; total: number; downtime: number; }> = [];
+  for (const site of cfg.sites) {
+    const siteDir = path.posix.join(REPORTS_DIR, slugify(site.name || site.url));
+    const aggPath = path.posix.join(siteDir, `${mode}.json`);
     try {
-      const arr = JSON.parse(txt);
-      for (const r of arr) {
-        const t = new Date(r.checkedAt);
-        if (t >= cutoff) records.push(r);
-      }
-    } catch (e) {
-      // skip
+      const txt = await fs.readFile(aggPath, "utf8");
+      const agg = JSON.parse(txt) as AggregateReport;
+      rows.push({
+        name: site.name,
+        url: site.url,
+        uptimePct: agg.uptimePct ?? 0,
+        total: agg.totalChecks ?? 0,
+        downtime: agg.downCount ?? 0
+      });
+    } catch {
+      rows.push({ name: site.name, url: site.url, uptimePct: 0, total: 0, downtime: 0 });
     }
   }
 
-  // compute uptime per site
-  const summary = [];
-  for (const site of cfg.sites) {
-    const siteRecs = records.filter(r => r.url === site.url);
-    const total = siteRecs.length;
-    const up = siteRecs.filter(r => r.status === "UP").length;
-    const uptimePct = total === 0 ? 0 : Math.round((up / total) * 10000) / 100;
-    summary.push({ name: site.name, url: site.url, total, up, downtime: total - up, uptimePct });
-  }
-
-  // compose markdown
+  // compose markdown (single stable filename per mode)
   const now = new Date();
-  const summaryMD = [
-    `# ${mode[0].toUpperCase() + mode.slice(1)} Uptime Report`,
-    `**Period:** last ${days} days (${cutoff.toISOString().split("T")[0]} → ${now.toISOString().split("T")[0]})`,
+  const header = `# ${mode[0].toUpperCase() + mode.slice(1)} Uptime Report`;
+  const tableHeader = ["| Site | Uptime % | Checks | Downtime |", "| ---- | -------: | -----: | ------: |"];
+  const tableRows = rows.map(s => `| [${s.name}](${s.url}) | ${s.uptimePct}% | ${s.total} | ${s.downtime} |`);
+  const body = [
+    header,
     "",
-    "| Site | Uptime % | Checks | Downtime |",
-    "| ---- | -------: | -----: | ------: |",
-    ...summary.map(s => `| [${s.name}](${s.url}) | ${s.uptimePct}% | ${s.total} | ${s.downtime} |`),
+    ...tableHeader,
+    ...tableRows,
     "",
     `Generated: ${now.toISOString()}`
   ].join("\n");
 
-  await fs.mkdir(LOG_DIR, { recursive: true });
-  const fname = path.join(LOG_DIR, `${mode}-summary-${now.toISOString().split("T")[0]}.md`);
-  await fs.writeFile(fname, summaryMD, "utf8");
-  await fs.writeFile(path.join(LOG_DIR, `${mode}-summary-latest.md`), summaryMD, "utf8");
-
-  console.log("Wrote", fname);
+  await fs.mkdir(REPORTS_DIR, { recursive: true });
+  const outPath = path.posix.join(REPORTS_DIR, `${mode}.md`);
+  await fs.writeFile(outPath, body, "utf8");
+  console.log("Updated", outPath);
 
   if (octokit && repoFull) {
     const [owner, repo] = repoFull.split("/");
     const title = `${mode[0].toUpperCase()+mode.slice(1)} Uptime Report — ${now.toISOString().split("T")[0]}`;
-    const body = summaryMD;
-
-    await octokit.issues.create({
-      owner, repo, title, body, labels: ["report"]
-    });
-
-    console.log("Created report issue");
-  } else {
-    console.log("No GitHub token found; skipping issue creation.");
+    const bodyText = body;
+    try {
+      await octokit.issues.create({ owner, repo, title, body: bodyText, labels: ["report"] });
+      console.log("Created report issue");
+    } catch (e) {
+      console.log("Skipping issue creation:", String(e));
+    }
   }
 }
 

@@ -35,20 +35,33 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Commit logs to reports branch
+      - name: Commit reports to reports branch
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
+          # Stash the newly generated reports from main
+          rm -rf .tmp_reports
+          mkdir -p .tmp_reports
+          if [ -d reports ]; then cp -r reports/. .tmp_reports/; fi
+          # also stash data/sites.yaml for the reports branch
+          rm -rf .tmp_data && mkdir -p .tmp_data
+          if [ -f data/sites.yaml ]; then mkdir -p .tmp_data/data && cp data/sites.yaml .tmp_data/data/; fi
 
           # Create or switch to reports branch
           git fetch origin reports || true
           git checkout reports || git checkout -b reports
 
-          # Copy the new logs into this branch
-          cp -r logs/* ./
+          # Restore reports into this branch
+          mkdir -p reports
+          if [ -d .tmp_reports ]; then cp -r .tmp_reports/. reports/; fi
 
-          git add *.json || true
-          git commit -m "chore: update uptime logs [skip ci]" || echo "no changes"
+          # Restore stashed data/sites.yaml
+          if [ -f .tmp_data/data/sites.yaml ]; then mkdir -p data && cp .tmp_data/data/sites.yaml data/sites.yaml; fi
+
+          git add reports/** || true
+          git add data/sites.yaml || true
+          git commit -m "chore: update uptime reports [skip ci]" || echo "no changes"
 
           # Push only to reports branch
           git push origin reports
