@@ -6,8 +6,8 @@
     "status": "UP",
     "code": 200,
     "error": null,
-    "rtt": 7481,
-    "checkedAt": "2025-11-11T21:15:56.422Z"
+    "rtt": 344,
+    "checkedAt": "2025-11-11T21:29:56.077Z"
   },
   {
     "name": "Monkeys Production",
@@ -16,8 +16,8 @@
     "status": "UP",
     "code": 200,
     "error": null,
-    "rtt": 468,
-    "checkedAt": "2025-11-11T21:15:56.898Z"
+    "rtt": 811,
+    "checkedAt": "2025-11-11T21:29:56.897Z"
   },
   {
     "name": "Monkeys Development",
@@ -26,17 +26,17 @@
     "status": "UP",
     "code": 200,
     "error": null,
-    "rtt": 983,
-    "checkedAt": "2025-11-11T21:15:57.883Z"
+    "rtt": 857,
+    "checkedAt": "2025-11-11T21:29:57.757Z"
   },
   {
     "name": "Obligence",
     "url": "https://obligence.kyrexi.tech",
     "owner": "prnvtripathi",
-    "status": "DOWN",
-    "code": 0,
-    "error": "fetch failed",
-    "rtt": 0,
-    "checkedAt": "2025-11-11T21:15:58.123Z"
+    "status": "UP",
+    "code": 200,
+    "error": null,
+    "rtt": 1507,
+    "checkedAt": "2025-11-11T21:29:59.266Z"
   }
 ]
