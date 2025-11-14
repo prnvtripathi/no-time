@@ -6,8 +6,8 @@
     "status": "UP",
     "code": 200,
     "error": null,
-    "rtt": 7158,
-    "checkedAt": "2025-11-14T10:19:10.398Z"
+    "rtt": 6578,
+    "checkedAt": "2025-11-14T10:40:29.330Z"
   },
   {
     "name": "Monkeys Production",
@@ -16,8 +16,8 @@
     "status": "UP",
     "code": 200,
     "error": null,
-    "rtt": 1193,
-    "checkedAt": "2025-11-14T10:19:11.598Z"
+    "rtt": 1225,
+    "checkedAt": "2025-11-14T10:40:30.560Z"
   },
   {
     "name": "Monkeys Development",
@@ -26,8 +26,8 @@
     "status": "UP",
     "code": 200,
     "error": null,
-    "rtt": 1072,
-    "checkedAt": "2025-11-14T10:19:12.673Z"
+    "rtt": 824,
+    "checkedAt": "2025-11-14T10:40:31.386Z"
   },
   {
     "name": "Obligence",
@@ -36,7 +36,7 @@
     "status": "UP",
     "code": 200,
     "error": null,
-    "rtt": 1777,
-    "checkedAt": "2025-11-14T10:19:14.453Z"
+    "rtt": 2391,
+    "checkedAt": "2025-11-14T10:40:33.779Z"
   }
 ]
