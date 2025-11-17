@@ -2,11 +2,11 @@
   "period": "weekly",
   "periodStart": "2025-11-17T00:00:00.000Z",
   "periodEnd": "2025-11-24T00:00:00.000Z",
-  "totalChecks": 2,
+  "totalChecks": 3,
   "upCount": 2,
-  "downCount": 0,
-  "uptimePct": 100,
-  "lastUpdated": "2025-11-17T02:49:49.638Z",
+  "downCount": 1,
+  "uptimePct": 66.67,
+  "lastUpdated": "2025-11-17T03:41:14.717Z",
   "name": "Trafyx",
   "url": "https://trafyx.kyrexi.tech"
 }
