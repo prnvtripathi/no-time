@@ -2,9 +2,9 @@
 
 | Site | Uptime % | Checks | Downtime |
 | ---- | -------: | -----: | ------: |
-| [Trafyx](https://trafyx.kyrexi.tech) | 75% | 12 | 3 |
-| [Monkeys Production](https://monkeys.support/healthz) | 100% | 12 | 0 |
-| [Monkeys Development](https://dev.monkeys.support/healthz) | 100% | 12 | 0 |
-| [Obligence](https://obligence.kyrexi.tech) | 100% | 12 | 0 |
+| [Trafyx](https://trafyx.kyrexi.tech) | 100% | 10 | 0 |
+| [Monkeys Production](https://monkeys.support/healthz) | 100% | 10 | 0 |
+| [Monkeys Development](https://dev.monkeys.support/healthz) | 100% | 10 | 0 |
+| [Obligence](https://obligence.kyrexi.tech) | 100% | 10 | 0 |
 
-Generated: 2025-11-17T06:20:56.241Z
+Generated: 2025-11-24T06:20:49.704Z
