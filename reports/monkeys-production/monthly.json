@@ -2,11 +2,11 @@
   "period": "monthly",
   "periodStart": "2025-11-01T00:00:00.000Z",
   "periodEnd": "2025-12-01T00:00:00.000Z",
-  "totalChecks": 1875,
-  "upCount": 1864,
+  "totalChecks": 1876,
+  "upCount": 1865,
   "downCount": 11,
   "uptimePct": 99.41,
-  "lastUpdated": "2025-11-24T22:30:46.048Z",
+  "lastUpdated": "2025-11-24T22:42:43.601Z",
   "name": "Monkeys Production",
   "url": "https://monkeys.support/healthz"
 }
