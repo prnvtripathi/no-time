@@ -2,9 +2,9 @@
   "name": "Trafyx",
   "url": "https://trafyx.kyrexi.tech",
   "owner": "prnvtripathi",
-  "status": "DOWN",
-  "code": 0,
-  "error": "This operation was aborted",
-  "rtt": 0,
-  "checkedAt": "2025-11-26T19:16:08.684Z"
+  "status": "UP",
+  "code": 200,
+  "error": null,
+  "rtt": 256,
+  "checkedAt": "2025-11-26T19:25:23.851Z"
 }
