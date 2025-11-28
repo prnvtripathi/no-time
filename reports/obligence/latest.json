@@ -2,9 +2,9 @@
   "name": "Obligence",
   "url": "https://obligence.kyrexi.tech",
   "owner": "prnvtripathi",
-  "status": "UP",
-  "code": 200,
-  "error": null,
-  "rtt": 1625,
-  "checkedAt": "2025-11-28T19:50:07.661Z"
+  "status": "DOWN",
+  "code": 0,
+  "error": "fetch failed",
+  "rtt": 0,
+  "checkedAt": "2025-11-28T19:55:56.315Z"
 }
