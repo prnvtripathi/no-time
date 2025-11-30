@@ -6,18 +6,18 @@
     "status": "UP",
     "code": 200,
     "error": null,
-    "rtt": 316,
-    "checkedAt": "2025-11-30T09:58:12.688Z"
+    "rtt": 6315,
+    "checkedAt": "2025-11-30T10:16:21.321Z"
   },
   {
     "name": "Monkeys Production",
     "url": "https://monkeys.support/healthz",
     "owner": "prnvtripathi",
-    "status": "DOWN",
-    "code": 502,
+    "status": "UP",
+    "code": 200,
     "error": null,
-    "rtt": 1369,
-    "checkedAt": "2025-11-30T09:58:14.065Z"
+    "rtt": 1043,
+    "checkedAt": "2025-11-30T10:16:22.373Z"
   },
   {
     "name": "Monkeys Development",
@@ -26,8 +26,8 @@
     "status": "UP",
     "code": 200,
     "error": null,
-    "rtt": 921,
-    "checkedAt": "2025-11-30T09:58:15.251Z"
+    "rtt": 1050,
+    "checkedAt": "2025-11-30T10:16:23.425Z"
   },
   {
     "name": "Obligence",
@@ -36,7 +36,7 @@
     "status": "UP",
     "code": 200,
     "error": null,
-    "rtt": 1745,
-    "checkedAt": "2025-11-30T09:58:16.998Z"
+    "rtt": 1530,
+    "checkedAt": "2025-11-30T10:16:24.957Z"
   }
 ]
