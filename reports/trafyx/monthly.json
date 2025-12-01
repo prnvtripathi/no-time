@@ -2,11 +2,11 @@
   "period": "monthly",
   "periodStart": "2025-12-01T00:00:00.000Z",
   "periodEnd": "2026-01-01T00:00:00.000Z",
-  "totalChecks": 3,
+  "totalChecks": 4,
   "upCount": 2,
-  "downCount": 1,
-  "uptimePct": 66.67,
-  "lastUpdated": "2025-12-01T04:29:44.845Z",
+  "downCount": 2,
+  "uptimePct": 50,
+  "lastUpdated": "2025-12-01T05:02:55.920Z",
   "name": "Trafyx",
   "url": "https://trafyx.kyrexi.tech"
 }
