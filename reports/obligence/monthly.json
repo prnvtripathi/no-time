@@ -1,12 +1,12 @@
 {
   "period": "monthly",
-  "periodStart": "2025-11-01T00:00:00.000Z",
-  "periodEnd": "2025-12-01T00:00:00.000Z",
-  "totalChecks": 2464,
-  "upCount": 2457,
-  "downCount": 7,
-  "uptimePct": 99.72,
-  "lastUpdated": "2025-11-30T23:57:12.833Z",
+  "periodStart": "2025-12-01T00:00:00.000Z",
+  "periodEnd": "2026-01-01T00:00:00.000Z",
+  "totalChecks": 1,
+  "upCount": 1,
+  "downCount": 0,
+  "uptimePct": 100,
+  "lastUpdated": "2025-12-01T01:19:01.473Z",
   "name": "Obligence",
   "url": "https://obligence.kyrexi.tech"
 }
