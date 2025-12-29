@@ -3,11 +3,11 @@
     "name": "Trafyx",
     "url": "https://trafyx.kyrexi.tech",
     "owner": "prnvtripathi",
-    "status": "DOWN",
-    "code": 0,
-    "error": "This operation was aborted",
-    "rtt": 0,
-    "checkedAt": "2025-12-29T13:22:45.940Z"
+    "status": "UP",
+    "code": 200,
+    "error": null,
+    "rtt": 7343,
+    "checkedAt": "2025-12-29T13:51:31.506Z"
   },
   {
     "name": "Monkeys Production",
@@ -16,8 +16,8 @@
     "status": "UP",
     "code": 200,
     "error": null,
-    "rtt": 1267,
-    "checkedAt": "2025-12-29T13:22:47.586Z"
+    "rtt": 999,
+    "checkedAt": "2025-12-29T13:51:32.512Z"
   },
   {
     "name": "Monkeys Development",
@@ -26,8 +26,8 @@
     "status": "DOWN",
     "code": 502,
     "error": null,
-    "rtt": 4918,
-    "checkedAt": "2025-12-29T13:22:52.507Z"
+    "rtt": 4453,
+    "checkedAt": "2025-12-29T13:51:36.968Z"
   },
   {
     "name": "Obligence",
@@ -36,7 +36,7 @@
     "status": "UP",
     "code": 200,
     "error": null,
-    "rtt": 1569,
-    "checkedAt": "2025-12-29T13:22:54.368Z"
+    "rtt": 1369,
+    "checkedAt": "2025-12-29T13:51:38.717Z"
   }
 ]
