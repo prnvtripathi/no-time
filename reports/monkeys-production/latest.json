@@ -2,9 +2,9 @@
   "name": "Monkeys Production",
   "url": "https://monkeys.support/healthz",
   "owner": "prnvtripathi",
-  "status": "DOWN",
-  "code": 0,
-  "error": "This operation was aborted",
-  "rtt": 0,
-  "checkedAt": "2026-01-14T16:32:55.232Z"
+  "status": "UP",
+  "code": 200,
+  "error": null,
+  "rtt": 946,
+  "checkedAt": "2026-01-14T16:59:11.410Z"
 }
