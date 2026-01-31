@@ -3,8 +3,8 @@
   "url": "https://dev.monkeys.support/healthz",
   "owner": "prnvtripathi",
   "status": "DOWN",
-  "code": 502,
-  "error": null,
-  "rtt": 6487,
-  "checkedAt": "2026-01-31T07:57:53.496Z"
+  "code": 0,
+  "error": "This operation was aborted",
+  "rtt": 0,
+  "checkedAt": "2026-01-31T08:24:11.527Z"
 }
