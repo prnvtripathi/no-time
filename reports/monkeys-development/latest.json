@@ -2,9 +2,9 @@
   "name": "Monkeys Development",
   "url": "https://dev.monkeys.support/healthz",
   "owner": "prnvtripathi",
-  "status": "UP",
-  "code": 200,
+  "status": "DOWN",
+  "code": 502,
   "error": null,
-  "rtt": 720,
-  "checkedAt": "2026-02-20T20:33:35.754Z"
+  "rtt": 4345,
+  "checkedAt": "2026-02-20T20:56:09.548Z"
 }
