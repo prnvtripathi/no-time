@@ -4,7 +4,7 @@
 | ---- | -------: | -----: | ------: |
 | [Trafyx](https://trafyx.kyrexi.tech) | 0% | 4 | 4 |
 | [Monkeys Production](https://monkeys.support/healthz) | 100% | 4 | 0 |
-| [Monkeys Development](https://dev.monkeys.support/healthz) | 100% | 4 | 0 |
+| [Monkeys Development](https://dev.monkeys.support/healthz) | 0% | 4 | 4 |
 | [Obligence](https://obligence.kyrexi.tech) | 0% | 4 | 4 |
 
-Generated: 2026-02-16T06:53:56.431Z
+Generated: 2026-02-23T06:54:47.760Z
