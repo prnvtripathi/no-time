@@ -1,12 +1,12 @@
 {
   "period": "weekly",
-  "periodStart": "2026-02-23T00:00:00.000Z",
-  "periodEnd": "2026-03-02T00:00:00.000Z",
-  "totalChecks": 269,
+  "periodStart": "2026-03-02T00:00:00.000Z",
+  "periodEnd": "2026-03-09T00:00:00.000Z",
+  "totalChecks": 1,
   "upCount": 0,
-  "downCount": 269,
+  "downCount": 1,
   "uptimePct": 0,
-  "lastUpdated": "2026-03-01T23:54:02.357Z",
+  "lastUpdated": "2026-03-02T00:00:36.263Z",
   "name": "Obligence",
   "url": "https://obligence.kyrexi.tech"
 }
