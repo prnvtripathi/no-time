@@ -1,12 +1,12 @@
 {
   "period": "weekly",
-  "periodStart": "2026-03-16T00:00:00.000Z",
-  "periodEnd": "2026-03-23T00:00:00.000Z",
-  "totalChecks": 238,
+  "periodStart": "2026-03-23T00:00:00.000Z",
+  "periodEnd": "2026-03-30T00:00:00.000Z",
+  "totalChecks": 1,
   "upCount": 0,
-  "downCount": 238,
+  "downCount": 1,
   "uptimePct": 0,
-  "lastUpdated": "2026-03-22T23:53:20.004Z",
+  "lastUpdated": "2026-03-23T01:00:54.837Z",
   "name": "Trafyx",
   "url": "https://trafyx.kyrexi.tech"
 }
