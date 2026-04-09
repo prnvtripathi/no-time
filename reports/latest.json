@@ -7,7 +7,7 @@
     "code": 0,
     "error": "fetch failed",
     "rtt": 0,
-    "checkedAt": "2026-04-09T12:10:52.133Z"
+    "checkedAt": "2026-04-09T14:10:24.132Z"
   },
   {
     "name": "Monkeys Production",
@@ -16,18 +16,18 @@
     "status": "UP",
     "code": 200,
     "error": null,
-    "rtt": 1380,
-    "checkedAt": "2026-04-09T12:10:53.796Z"
+    "rtt": 715,
+    "checkedAt": "2026-04-09T14:10:25.277Z"
   },
   {
     "name": "Monkeys Development",
     "url": "https://dev.monkeys.support/healthz",
     "owner": "prnvtripathi",
     "status": "DOWN",
-    "code": 502,
-    "error": null,
-    "rtt": 4129,
-    "checkedAt": "2026-04-09T12:10:57.927Z"
+    "code": 0,
+    "error": "This operation was aborted",
+    "rtt": 0,
+    "checkedAt": "2026-04-09T14:10:33.280Z"
   },
   {
     "name": "Obligence",
@@ -37,6 +37,6 @@
     "code": 0,
     "error": "fetch failed",
     "rtt": 0,
-    "checkedAt": "2026-04-09T12:10:58.702Z"
+    "checkedAt": "2026-04-09T14:10:33.761Z"
   }
 ]
