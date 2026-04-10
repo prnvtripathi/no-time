@@ -2,11 +2,11 @@
   "period": "monthly",
   "periodStart": "2026-04-01T00:00:00.000Z",
   "periodEnd": "2026-05-01T00:00:00.000Z",
-  "totalChecks": 255,
-  "upCount": 44,
+  "totalChecks": 256,
+  "upCount": 45,
   "downCount": 211,
-  "uptimePct": 17.25,
-  "lastUpdated": "2026-04-10T21:21:48.252Z",
+  "uptimePct": 17.58,
+  "lastUpdated": "2026-04-10T21:56:40.910Z",
   "name": "Monkeys Development",
   "url": "https://dev.monkeys.support/healthz"
 }
